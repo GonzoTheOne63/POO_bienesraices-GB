@@ -1,0 +1,54 @@
+.alerta {
+  padding: .5rem;
+  text-align: center;
+  color: $blanco;
+  font-weight: $bold;
+  text-transform: uppercase;
+  margin: .5rem auto;
+  border-radius: .5rem;
+  width: 95%;  
+  &.error {
+    background-color: $rojo;
+  }
+  &.exito {
+    background-color: $verde;
+  }
+}
+
+table.propiedades {
+  margin-top: 4rem;
+  width: 100%;
+  border-spacing: 0;  
+  
+      td {
+          text-align: center;
+          font-weight: $bold;
+          font-size: 2.5rem; 
+                           
+      }
+  thead {
+    background-color: $verde;
+
+    th {
+      color: $blanco;
+      padding: 2rem;
+    }
+    tr {
+      border-radius: 5rem;
+    }
+          
+  }
+  .imagen-tabla {
+    width: 15rem;    
+  }
+   .costo {
+          color: $verde;
+          font-size: 3rem;
+          font-weight: $bold;
+          text-align: center;
+          }
+}
+
+.imagen-small {
+  width: 25rem;
+}

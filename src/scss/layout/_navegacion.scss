@@ -1,0 +1,104 @@
+.derecha {
+  display: flex;  // COLOCA el elementeo de derecha a izquierda
+  flex-direction: column; // COLOCA el elemento uno sobre en otro
+  align-items: center; // EN modo tableta lo coloca al centro
+
+  @include tablet {
+    align-items: flex-end; // ENVIA el elemento hasta la derecha (al final) en dispositivo grande
+  }
+
+  .dark-mode-boton {
+    width: 3rem; // TAMAÑO  pequeño
+    margin-top: 3rem; // SEPARACIÓN arriba
+    margin-bottom: 2rem; // SEPARACIÓN abajo
+    filter: invert(100%); // Invierte el color negro a blanco
+
+    &:hover {
+      cursor: pointer; // PONE la manita para botones
+    }
+
+    @include tablet {
+      margin-top: 0;
+    }
+  }
+}
+
+.barra {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 3rem; // CENTRA el contenido en modo tableta
+  @include tablet {  
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end; // CENTRA el contenido de la barra en pantalla grande 
+  }
+}
+
+.navegacion {
+  // display: none; // NO se puede animar
+  // FORMA de agregar una animación
+  visibility: hidden;
+  opacity: 0;
+  //   height: 0;
+  //   transition: visibility 0.1s,  ease-in-out, opacity 0.5s linear,
+  transition: visibility 0.3s ease-in-out, opacity 1s linear;
+
+  @include tablet {
+    display: flex;
+    align-items: center;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  a {
+    color: $blanco;
+    text-decoration: none;
+    font-size: 2.2rem;
+    display: block;
+    text-align: center;
+
+    @include tablet {
+      margin-right: 2rem;
+      font-size: 1.8rem;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+
+    &:hover {
+      color: $verde;
+    }
+  }
+}
+
+/** MENÚ de hamburguesa **/
+.mobile-menu {
+  @include tablet {
+    display: none;
+  }
+  // AMBOS métodos funcionan igual
+  /* @include tablet {
+        .mobile-menu {
+            display: none;
+        }
+    } */
+
+  img {
+    width: 5rem;
+  }
+}
+
+.mostrar {
+  /* display: flex;
+  flex-direction: column;
+
+  @include tablet {
+    flex-direction: row;
+  } */
+  // AGREGA la nimación junto con VISIBILITY "hidden"
+  visibility: visible;
+  opacity: 1;
+  height: auto;
+}

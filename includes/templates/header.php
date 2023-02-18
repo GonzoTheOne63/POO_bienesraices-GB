@@ -3,7 +3,7 @@ if (!isset($_SESSION)) {
     session_start();
 }
 $auth = $_SESSION['login'] ?? null;
-var_dump($auth);
+// var_dump($auth);
 ?>
 <!DOCTYPE html>
 <html lang="en">

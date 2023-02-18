@@ -1,6 +1,5 @@
  <?php
     // IMPORTAR la conexión a la DB
-    require __DIR__ . '/../config/database.php';
     $db = conectarDB();
     // CONSUTAR la base de datos
     $query = "SELECT * FROM propiedades LIMIT ${limite}";
@@ -18,7 +17,7 @@
              <div class="contenido-anuncio">
                  <h3><?php echo limitar_cadena($propiedad['titulo'], 25, "..."); ?></h3>
                  <p>
-                     <?php echo limitar_cadena($propiedad['descripcion'], 75, "..."); ?>
+                     <?php echo limitar_cadena($propiedad['descripcion'], 70, "..."); ?>
                  </p>
                  <p class="precio">$<?php echo number_format($propiedad['precio']); ?>.00</p>
 

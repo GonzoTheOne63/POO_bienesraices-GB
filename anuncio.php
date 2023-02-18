@@ -7,8 +7,8 @@ if (!$id) {
     header('Location: /');
 }
 
-// IMPORTAR la conexión
-require __DIR__ . '/includes/config/database.php';
+require 'includes/app.php';
+
 $db = conectarDB();
 // CONSUTAR la base de datos
 $query = "SELECT * FROM propiedades WHERE id = ${id}";
@@ -25,7 +25,7 @@ if(!$resultado->num_rows) {
 
 $propiedad = mysqli_fetch_assoc($resultado);
 
-require 'includes/funciones.php';
+
 incluirTemplate('header');
 ?>
 

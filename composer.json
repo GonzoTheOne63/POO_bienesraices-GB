@@ -1,0 +1,17 @@
+{
+    "name": "magon/poo_bienesraices-gb",
+    "description": "Creando Proyecto con POO",
+    "type": "project",
+    "authors": [
+        {
+            "name": "GoinBar",
+            "email": "gbarron.ms@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\": "./classes"
+        }
+    }
+}

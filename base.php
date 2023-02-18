@@ -1,6 +1,6 @@
 <?php
-$inicio = false;
-    include './includes/templates/header.php'; /* /includes/templates/header.php */
+    require 'includes/app.php';
+    incluirTemplate('header');
 ?>
 
 <main class="contenedor seccion">

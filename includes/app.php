@@ -1,6 +1,9 @@
 <?php
+// ESTE archivo se va a convertir en el pricipal pues va a llamar a las funciones y a las classes
+require 'funciones.php';
+require 'config/database.php';
+require __DIR__ . '/../vendor/autoload.php';
 
-define('TEMPLATES_URL', __DIR__ . '/templates');
-define('FUNCIONES_URL', __DIR__ . 'funciones.php');
+use App\Propiedad;
 
-/* NO es necesario el cierre de php */
+$propiedad = new Propiedad;

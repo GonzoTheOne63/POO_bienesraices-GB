@@ -4,8 +4,7 @@ define('TEMPLATES_URL', __DIR__ . '/templates');
 define('FUNCIONES_URL', __DIR__ . 'funciones.php');
 
 function incluirTemplate(string $nombre, bool $inicio = false)
-{
-	// echo TEMPLATES_URL . "/${nombre}.php";  // IMPRIME la ruta completa                                                                                                                                                                                                                                      
+{                                                                                                                                                                                                                                   
 	include TEMPLATES_URL . "/${nombre}.php";
 }
 function limitar_cadena($cadena, $limite, $sufijo)
@@ -20,14 +19,13 @@ function limitar_cadena($cadena, $limite, $sufijo)
 }
 
 // Verifica que el usuario esté autenticado
-function estaAutenticado(): bool
+function estaAutenticado()
 {
 	session_start();
-	$auth = $_SESSION['login'];
-	if($auth) {
-		return true;
+	
+	if (!$_SESSION['login']) {
+		header('Location: /');
 	}
-	return false;
 }
 
 function debug($variable)

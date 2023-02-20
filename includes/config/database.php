@@ -2,7 +2,7 @@
 
 function conectarDB() : mysqli
 {
-  $db = mysqli_connect('localhost', 'root', '', 'bienes_raices');
+  $db = new mysqli('localhost', 'root', '', 'bienes_raices'); /* APLICANDO la forma orientada a objetos */
   mysqli_set_charset($db, 'utf8');
   
   if (!$db) {

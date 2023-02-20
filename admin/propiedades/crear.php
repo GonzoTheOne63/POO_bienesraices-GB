@@ -41,10 +41,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $propiedad->guardar();
 
+    
+
     echo "<pre>";
     var_dump($_FILES); // SEGURO, no muestra los datos
     echo "</pre>";
-    
+    exit;
 
     $titulo = mysqli_real_escape_string($db, $_POST['titulo']);
     $precio = mysqli_real_escape_string($db, $_POST['precio']);
@@ -120,9 +122,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         /* SUBIR LA IMAGEN */
         move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
         // exit;
-
-        // GENERANDO VARIABLE PARA LA INSERCIÓN A LA BASE DE DATOS
-        $query = " INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) VALUES ( '$titulo', '$precio', '$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedorId' ) ";
 
         // echo $query;  // GENERA el query que puedo insertar a tableplus
         // GUARDAR EN LA BASE DE DATOS

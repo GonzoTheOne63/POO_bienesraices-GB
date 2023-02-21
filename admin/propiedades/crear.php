@@ -11,18 +11,6 @@ $db = conectarDB();
 $consulta = "SELECT * FROM vendedores";
 $resultado = mysqli_query($db, $consulta);
 
-// echo "<pre>";
-//     var_dump($_GET); // INSEGURO, muestra los datos en la URL
-// echo "</pre>";
-
-// echo "<pre>";
-//     var_dump($_SERVER["SERVER_SOFTWARE"]); // MUESTRA la información del servidor -> más el software de desarrollo
-// echo "</pre>";
-
-// echo "<pre>";
-// var_dump($_SERVER["REQUEST_METHOD"]); // MUESTRA la información del servidor -> más el software de desarrollo
-// echo "</pre>";
-
 /* {VALIDADOR} array con mensajes de errores*/
 $errores = [];
 
@@ -39,14 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $propiedad = new Propiedad($_POST);
 
-    $propiedad->guardar();
-
-    
+    $propiedad->guardar();    
 
     echo "<pre>";
     var_dump($_FILES); // SEGURO, no muestra los datos
     echo "</pre>";
-    exit;
+    // exit;
 
     $titulo = mysqli_real_escape_string($db, $_POST['titulo']);
     $precio = mysqli_real_escape_string($db, $_POST['precio']);

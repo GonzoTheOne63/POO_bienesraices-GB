@@ -8,6 +8,9 @@ class Propiedad
     protected static $db;
     protected static $columnasDB = ['id', 'titulo', 'precio', 'imagen', 'descripcion', 'habitaciones', 'wc', 'estacionamiento', 'creado', 'vendedorId'];
 
+    /* ERRORES */
+    protected static $errores = [];
+
     public $id;
     public $titulo;
     public $precio;
@@ -42,7 +45,7 @@ class Propiedad
     {
         /* SANITIZAR los datos */
         $atributos = $this->sanitizarAtributos();
-        
+
         // GENERANDO VARIABLE PARA LA INSERCIÓN A LA BASE DE DATOS
         $query = " INSERT INTO propiedades ( ";
         $query .= join(', ', array_keys($atributos));
@@ -71,10 +74,50 @@ class Propiedad
     public function sanitizarAtributos()
     {
         $atributos =  $this->atributos();
-        $sanitizado = [];        
+        $sanitizado = [];
         foreach ($atributos as $key => $value) {
             $sanitizado[$key] = self::$db->escape_string($value);
         }
         return $sanitizado;
     }
-}
+    /* VALIDACIÓN */
+    public static function getErrores()
+    {
+        return self::$errores;
+    }
+    public function validar()
+    {
+        if (!$this->titulo) { /* CON this pq forma parte de la instancia dentro de un constructor */
+                self::$errores[] = "Dale un título a tu propiedad"; /* SELF pq es un método estático */
+        }
+         
+            if (!$this->precio) {
+                self::$errores[] = "Falta el precio";
+            }
+            if (strlen($this->descripcion) < 50) {
+                self::$errores[] = "Dinos más sobre la propiedad, no menos de 50 caracteres";
+            }
+            if (!$this->habitaciones) {
+                self::$errores[] = "El número de habitaciones es obligatorio";
+            }
+            if (!$this->wc) {
+                self::$errores[] = "El número de baños es obligatorio";
+            }
+            if (!$this->estacionamiento) {
+                self::$errores[] = "La cantidad de estacionamientos es obligatorio";
+            }
+            if (!$this->vendedorId) {
+                self::$errores[] = "Elige a tu vendedor";
+            }
+            // if (!$this->imagen['name'] || $this->imagen['error']) {
+            //     self::$errores[] = "La imagen es obligatoria";
+            // }
+
+            // // {VALIDAR} por tamaño (1 Mb máximo)
+            // $medida = 1000 * 1000;
+            // if ($this->imagen['size'] > $medida) {
+            //     $errores = 'La imagen es muy pesada';
+            // }
+            return self::$errores;
+        }
+    }

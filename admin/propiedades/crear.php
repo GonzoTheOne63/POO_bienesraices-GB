@@ -12,7 +12,7 @@ $consulta = "SELECT * FROM vendedores";
 $resultado = mysqli_query($db, $consulta);
 
 /* {VALIDADOR} array con mensajes de errores*/
-$errores = [];
+$errores = Propiedad::getErrores();
 
 $titulo = '';
 $precio = '';
@@ -22,77 +22,21 @@ $wc = '';
 $estacionamiento = '';
 $vendedorId = '';
 
-/* {EJECUTAR} el código después de que el usuario envía el formulario */
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// EJECUTA el código después que el usuario envía el formulario
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $propiedad = new Propiedad($_POST);
 
-    $propiedad->guardar();    
-
-    echo "<pre>";
-    var_dump($_FILES); // SEGURO, no muestra los datos
-    echo "</pre>";
-    // exit;
-
-    $titulo = mysqli_real_escape_string($db, $_POST['titulo']);
-    $precio = mysqli_real_escape_string($db, $_POST['precio']);
-    $descripcion = mysqli_real_escape_string($db, $_POST['descripcion']);
-    $habitaciones = mysqli_real_escape_string($db, $_POST['habitaciones']);
-    $wc = mysqli_real_escape_string($db, $_POST['wc']);
-    $estacionamiento = mysqli_real_escape_string($db, $_POST['estacionamiento']);
-    $vendedorId = mysqli_real_escape_string($db, $_POST['vendedorId']);
-    $creado = date('Y/m/d');
-
-    // {ASIGNAR} "files" hacia una variable
-    $imagen = $_FILES['imagen'];
-    // echo "<pre>";
-    // var_dump($imagen['name']);
-    // echo "</pre>";    
-    // exit;
-
-    // $imagen = $_FILES['imagen'];
-    // var_dump($imagen['name']);
-    // exit;
-
-    if (!$titulo) {
-        $errores[] = "Dale un título a tu propiedad";
-    }
-    if (!$precio) {
-        $errores[] = "Falta el precio";
-    }
-    if (strlen($descripcion) < 50) {
-        $errores[] = "Dinos más sobre la propiedad, no menos de 50 caracteres";
-    }
-    if (!$habitaciones) {
-        $errores[] = "El número de habitaciones es obligatorio";
-    }
-    if (!$wc) {
-        $errores[] = "El número de baños es obligatorio";
-    }
-    if (!$estacionamiento) {
-        $errores[] = "La cantidad de estacionamientos es obligatorio";
-    }
-    if (!$vendedorId) {
-        $errores[] = "Elige a tu vendedor";
-    }
-    if (!$imagen['name'] || $imagen['error']) {
-        $errores[] = "La imagen es obligatoria";
-    }
-
-    // {VALIDAR} por tamaño (1 Mb máximo)
-    $medida = 1000 * 1000;
-    if ($imagen['size'] > $medida) {
-        $errores = 'La imagen es muy pesada';
-    }
-
-    // echo "<pre>";
-    // var_dump($errores);
-    // echo "</pre>";
-
-    // exit;   // EVITA la ejecución del código
+    $errores = $propiedad->validar();
 
     /* {REVISAR} que el array de errores esté vacio, no tenga errores */
     if (empty($errores)) {
+
+        $propiedad->guardar();
+
+        // ASIGNAR files hacia una variable
+        $imagen = $_FILES['imagen'];
+
         /* SUBIDA DE ARCHIVOS */
         /* CREAR la carpeta */
         $carpetaImagenes = '../../imagenes/';

@@ -42,12 +42,16 @@ class Propiedad
     {
         /* SANITIZAR los datos */
         $atributos = $this->sanitizarAtributos();
-        // debug($atributos);
-
+        
         // GENERANDO VARIABLE PARA LA INSERCIÓN A LA BASE DE DATOS
-        $query = " INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) VALUES ( '$this->titulo', '$this->precio', '$this->imagen', '$this->descripcion', '$this->habitaciones', '$this->wc', '$this->estacionamiento', '$this->creado', '$this->vendedorId' ) ";
+        $query = " INSERT INTO propiedades ( ";
+        $query .= join(', ', array_keys($atributos));
+        $query .= " ) VALUES ( ' ";
+        $query .= join("', '", array_values($atributos));
+        $query .= " ') ";
 
-        // self::$db->query($query);
+        debug($query);
+
         $resultado = self::$db->query($query);
 
         debug($resultado);

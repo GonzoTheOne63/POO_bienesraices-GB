@@ -33,7 +33,7 @@ class Propiedad
         $this->id = $args['id'] ?? '';
         $this->titulo = $args['titulo'] ?? '';
         $this->precio = $args['precio'] ?? '';
-        $this->imagen = $args['imagen'] ?? 'imagen.jpg';
+        $this->imagen = $args['imagen'] ?? '';
         $this->descripcion = $args['descripcion'] ?? '';
         $this->habitaciones = $args['habitaciones'] ?? '';
         $this->wc = $args['wc'] ?? '';
@@ -53,11 +53,9 @@ class Propiedad
         $query .= join("', '", array_values($atributos));
         $query .= " ') ";
 
-        debug($query);
-
         $resultado = self::$db->query($query);
 
-        debug($resultado);
+        return $resultado;
     }
 
     /* IDENTIFICA y une los atributos de la BD */
@@ -80,6 +78,14 @@ class Propiedad
         }
         return $sanitizado;
     }
+    /* SUBIDA de archivos (imagenes) */
+    public function setImagen($imagen) {
+        // ASIGNAR a atributo de imagenel nombre de la imagen
+        if($imagen) {
+            $this->imagen = $imagen;
+        }
+    }
+
     /* VALIDACIÓN */
     public static function getErrores()
     {
@@ -89,8 +95,7 @@ class Propiedad
     {
         if (!$this->titulo) { /* CON this pq forma parte de la instancia dentro de un constructor */
                 self::$errores[] = "Dale un título a tu propiedad"; /* SELF pq es un método estático */
-        }
-         
+        }         
             if (!$this->precio) {
                 self::$errores[] = "Falta el precio";
             }
@@ -109,15 +114,10 @@ class Propiedad
             if (!$this->vendedorId) {
                 self::$errores[] = "Elige a tu vendedor";
             }
-            // if (!$this->imagen['name'] || $this->imagen['error']) {
-            //     self::$errores[] = "La imagen es obligatoria";
-            // }
-
-            // // {VALIDAR} por tamaño (1 Mb máximo)
-            // $medida = 1000 * 1000;
-            // if ($this->imagen['size'] > $medida) {
-            //     $errores = 'La imagen es muy pesada';
-            // }
+            if (!$this->imagen) {
+                self::$errores[] = "La imagen es obligatoria";
+            }
+                        
             return self::$errores;
         }
     }

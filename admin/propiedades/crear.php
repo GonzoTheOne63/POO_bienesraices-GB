@@ -1,6 +1,7 @@
 <?php
 require '../../includes/app.php';
 
+use Intervention\Image\ImageManagerStatic as Image;
 use App\Propiedad;
 
 estaAutenticado();
@@ -23,40 +24,47 @@ $estacionamiento = '';
 $vendedorId = '';
 
 // EJECUTA el código después que el usuario envía el formulario
-if($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    /* CREA una nueva instancia */
     $propiedad = new Propiedad($_POST);
 
+    /* SUBIDA DE ARCHIVOS */
+    /* CREAR la carpeta */
+    $carpetaImagenes = '../../imagenes/';
+
+    if (!is_dir($carpetaImagenes)) {
+        mkdir($carpetaImagenes);
+    }
+
+    /* GENERAR UN NOMBRE ÚNICO */
+    $nombreImagen = md5(uniqid(rand(), true)) . strrchr($_FILES['imagen']['name'], '.');  // sttchr() trae la extensión de la imagen 
+
+    /* SETEAR la imagen */
+    /* REALIZA el resize a la imagen con Intervention */
+    if($_FILES['imagen']['tmp_name']) {
+        $image = Image::make($_FILES['imagen']['tmp_name'])->fit(800, 600);
+        $propiedad->setImagen($nombreImagen);
+    }    
+    
+    /* VALIDAR */
     $errores = $propiedad->validar();
 
     /* {REVISAR} que el array de errores esté vacio, no tenga errores */
     if (empty($errores)) {
-
         $propiedad->guardar();
-
-        // ASIGNAR files hacia una variable
-        $imagen = $_FILES['imagen'];
-
-        /* SUBIDA DE ARCHIVOS */
-        /* CREAR la carpeta */
-        $carpetaImagenes = '../../imagenes/';
-
-        if (!is_dir($carpetaImagenes)) {
-            mkdir($carpetaImagenes);
-        }
-
-        /* GENERAR UN NOMBRE ÚNICO */
-        $nombreImagen = md5(uniqid(rand(), true)) . strrchr($_FILES['imagen']['name'], '.');  // sttchr() trae la extensión de la imagen 
-        // var_dump($nombreImagen);
-
-        /* SUBIR LA IMAGEN */
-        move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
-        // exit;
-
-        // echo $query;  // GENERA el query que puedo insertar a tableplus
-        // GUARDAR EN LA BASE DE DATOS
-        $resultado = mysqli_query($db, $query);
-
+        
+        /* CREAR la carpeta para subir imagenes */
+        if(!is_dir(CARPETA_IMAGENES)) {
+            mkdir(CARPETA_IMAGENES);
+        }       
+                      
+        // GUARDAR la imagen en el servidor
+        $image->save(CARPETA_IMAGENES . $nombreImagen);       
+        
+        /* GUARDA an la base de datos */
+        $resultado = $propiedad->guardar();
+        
+        
         if ($resultado) {
             // Redireccionar al usuario.
             header('Location: ../admin.php?resultado=1');
